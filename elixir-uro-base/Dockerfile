@@ -9,10 +9,10 @@ WORKDIR /app
 RUN apk add --update postgresql-client nodejs nodejs-npm inotify-tools yarn git bash make gcc libc-dev
 
 RUN mix do local.hex --force, local.rebar --force
-COPY ../mix.exs ../mix.lock ./
+COPY mix.exs mix.lock ./
 RUN MIX_ENV=prod mix do deps.get, deps.compile && mkdir assets
 
-COPY ../assets/package.json ../assets/package-lock.json ./assets/
+COPY assets/package.json assets/package-lock.json ./assets/
 RUN cd assets && yarn install && npm install; cd -
 
 RUN apk del make binutils gmp isl libgomp libatomic mpfr4 mpc1 gcc musl-dev libc-dev
